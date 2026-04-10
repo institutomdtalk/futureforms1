@@ -2,1022 +2,1002 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Future Forms 1 — MD Talk</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Future Forms I — MD Talk</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #0d1b2a;
-    --navy-mid: #162236;
-    --navy-light: #1e2f45;
-    --gold: #c9a84c;
-    --gold-light: #e2c97e;
-    --cream: #f5f0e8;
-    --cream-warm: #ede7d9;
-    --text-light: #d4cfc7;
-    --text-muted: #8a8a8a;
-    --white: #ffffff;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Raleway', sans-serif;
-    background-color: var(--navy);
-    color: var(--cream);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ── PIN OVERLAY ── */
-  #pin-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--navy);
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  #pin-overlay .lock-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    font-weight: 300;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-  }
-
-  #pin-overlay h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem;
-    font-weight: 300;
-    color: var(--cream);
-    text-align: center;
-    line-height: 1.3;
-  }
-
-  #pin-overlay p {
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    color: var(--text-muted);
-    text-align: center;
-  }
-
-  .pin-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.2rem;
-  }
-
-  .pin-dots {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .pin-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 1.5px solid var(--gold);
-    background: transparent;
-    transition: background 0.2s;
-  }
-
-  .pin-dot.filled { background: var(--gold); }
-
-  .pin-input {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--gold);
-    color: transparent;
-    caret-color: transparent;
-    font-size: 2rem;
-    width: 10rem;
-    text-align: center;
-    letter-spacing: 1rem;
-    outline: none;
-    padding: 0.5rem 0;
-  }
-
-  .pin-error {
-    font-size: 0.75rem;
-    color: #c0392b;
-    letter-spacing: 0.1em;
-    min-height: 1.2em;
-    text-align: center;
-  }
-
-  /* ── CONTENT BLUR ── */
-  #main-content {
-    filter: blur(12px);
-    pointer-events: none;
-    user-select: none;
-    transition: filter 0.7s ease;
-  }
-
-  #main-content.unlocked {
-    filter: none;
-    pointer-events: auto;
-    user-select: auto;
-  }
-
-  /* ── HEADER ── */
-  header {
-    background: var(--navy);
-    border-bottom: 1px solid rgba(201,168,76,0.2);
-    padding: 2rem 0 1.5rem;
-    text-align: center;
-    position: relative;
-  }
-
-  .brand-label {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 600;
-    font-size: 0.65rem;
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.6rem;
-  }
-
-  header h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 5vw, 3.4rem);
-    font-weight: 300;
-    color: var(--cream);
-    letter-spacing: 0.04em;
-    line-height: 1.15;
-  }
-
-  header h1 em {
-    font-style: italic;
-    color: var(--gold-light);
-  }
-
-  .header-sub {
-    font-size: 0.72rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-top: 0.8rem;
-  }
-
-  .gold-line {
-    width: 60px;
-    height: 1px;
-    background: var(--gold);
-    margin: 1.2rem auto 0;
-    opacity: 0.6;
-  }
-
-  /* ── MAIN LAYOUT ── */
-  main {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 5rem;
-  }
-
-  /* ── INTRO SECTION ── */
-  .intro-section {
-    background: var(--navy-mid);
-    border: 1px solid rgba(201,168,76,0.15);
-    border-left: 3px solid var(--gold);
-    border-radius: 2px;
-    padding: 2.2rem 2.4rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .intro-section p {
-    font-size: 0.95rem;
-    line-height: 1.9;
-    color: var(--text-light);
-    font-weight: 300;
-  }
-
-  .intro-section p + p { margin-top: 1rem; }
-
-  .intro-section strong {
-    color: var(--gold-light);
-    font-weight: 600;
-  }
-
-  /* ── SECTION TITLES ── */
-  .section-tag {
-    font-size: 0.6rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.4rem;
-    font-weight: 600;
-  }
-
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-    font-weight: 300;
-    color: var(--cream);
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-  }
-
-  .section-intro {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-    font-weight: 300;
-  }
-
-  /* ── FORM CARDS ── */
-  .form-card {
-    background: var(--navy-mid);
-    border: 1px solid rgba(201,168,76,0.12);
-    border-radius: 2px;
-    margin-bottom: 1.8rem;
-    overflow: hidden;
-  }
-
-  .form-card-header {
-    background: var(--navy-light);
-    padding: 1.2rem 1.8rem;
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    border-bottom: 1px solid rgba(201,168,76,0.1);
-  }
-
-  .form-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: var(--gold-light);
-    font-style: italic;
-  }
-
-  .form-tag {
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    font-weight: 500;
-  }
-
-  .form-card-body {
-    padding: 1.6rem 1.8rem;
-  }
-
-  .definition-block {
-    background: rgba(201,168,76,0.05);
-    border-left: 2px solid rgba(201,168,76,0.4);
-    padding: 1rem 1.4rem;
-    margin-bottom: 1.4rem;
-    border-radius: 0 2px 2px 0;
-  }
-
-  .definition-block p {
-    font-size: 0.88rem;
-    line-height: 1.8;
-    color: var(--text-light);
-    font-weight: 300;
-  }
-
-  .definition-block strong { color: var(--cream); font-weight: 500; }
-
-  /* ── EXAMPLES ── */
-  .examples-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-    margin-top: 0.4rem;
-  }
-
-  .example-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .example-en {
-    font-size: 0.92rem;
-    color: var(--cream);
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .example-en::before {
-    content: "— ";
-    color: var(--gold);
-    font-style: normal;
-    font-size: 0.8rem;
-  }
-
-  /* ── TOGGLE TRANSLATION ── */
-  .translation-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0.15rem 0;
-    margin-top: 0.15rem;
-  }
-
-  .translation-toggle span {
-    font-size: 0.68rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-family: 'Raleway', sans-serif;
-    font-weight: 600;
-    transition: color 0.2s;
-  }
-
-  .translation-toggle svg {
-    width: 10px;
-    height: 10px;
-    fill: var(--gold);
-    transition: transform 0.25s;
-  }
-
-  .translation-toggle.open svg { transform: rotate(180deg); }
-  .translation-toggle:hover span { color: var(--gold-light); }
-
-  .translation-text {
-    display: none;
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    font-style: normal;
-    padding: 0.3rem 0 0 0.3rem;
-    line-height: 1.6;
-    font-weight: 300;
-  }
-
-  .translation-text.visible { display: block; }
-
-  /* ── WILL USES ── */
-  .will-section {
-    margin-top: 3.5rem;
-  }
-
-  .will-intro {
-    font-size: 0.88rem;
-    line-height: 1.8;
-    color: var(--text-light);
-    margin-bottom: 2rem;
-    font-weight: 300;
-  }
-
-  .will-use {
-    background: var(--navy-mid);
-    border: 1px solid rgba(201,168,76,0.1);
-    border-radius: 2px;
-    margin-bottom: 1.4rem;
-    overflow: hidden;
-  }
-
-  .will-use-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.6rem;
-    background: var(--navy-light);
-    border-bottom: 1px solid rgba(201,168,76,0.08);
-  }
-
-  .will-number {
-    width: 28px;
-    height: 28px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.72rem;
-    color: var(--gold);
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  .will-use-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.25rem;
-    font-style: italic;
-    color: var(--gold-light);
-    font-weight: 400;
-  }
-
-  .will-use-body {
-    padding: 1.3rem 1.6rem;
-  }
-
-  .will-use-body p {
-    font-size: 0.86rem;
-    color: var(--text-light);
-    line-height: 1.8;
-    margin-bottom: 1rem;
-    font-weight: 300;
-  }
-
-  /* ── CONTRAST BOX ── */
-  .contrast-box {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    margin-top: 1.2rem;
-    background: rgba(201,168,76,0.15);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .contrast-side {
-    background: var(--navy-mid);
-    padding: 1.2rem 1.4rem;
-  }
-
-  .contrast-side h4 {
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 600;
-    margin-bottom: 0.7rem;
-  }
-
-  .contrast-side .example-en { font-size: 0.84rem; }
-
-  @media (max-width: 560px) {
-    .contrast-box { grid-template-columns: 1fr; }
-  }
-
-  /* ── SHALL SECTION ── */
-  .shall-section {
-    margin-top: 3.5rem;
-  }
-
-  .shall-note {
-    background: rgba(201,168,76,0.06);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 2px;
-    padding: 1.2rem 1.6rem;
-    margin-top: 1.2rem;
-  }
-
-  .shall-note p {
-    font-size: 0.84rem;
-    line-height: 1.8;
-    color: var(--text-light);
-    font-weight: 300;
-  }
-
-  .shall-note strong { color: var(--gold-light); font-weight: 600; }
-
-  /* ── DIVIDER ── */
-  .section-divider {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin: 3.5rem 0;
-  }
-
-  .section-divider::before,
-  .section-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(201,168,76,0.18);
-  }
-
-  .divider-mark {
-    width: 6px;
-    height: 6px;
-    border: 1px solid var(--gold);
-    transform: rotate(45deg);
-    opacity: 0.6;
-  }
-
-  /* ── PRACTICE BUTTON ── */
-  .practice-wrap {
-    text-align: center;
-    margin-top: 4rem;
-    padding: 3rem 2rem;
-    border-top: 1px solid rgba(201,168,76,0.15);
-  }
-
-  .practice-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-  }
-
-  .practice-btn {
-    display: inline-block;
-    padding: 1.1rem 3.2rem;
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .practice-btn:hover {
-    background: var(--gold);
-    color: var(--navy);
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid rgba(201,168,76,0.1);
-    padding: 2.5rem 1.5rem;
-    text-align: center;
-    background: var(--navy);
-  }
-
-  .footer-brand {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    font-weight: 300;
-    letter-spacing: 0.25em;
-    color: var(--gold);
-    margin-bottom: 1.2rem;
-    text-transform: uppercase;
-  }
-
-  .footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .footer-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    color: var(--text-muted);
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    transition: color 0.2s;
-  }
-
-  .footer-link:hover { color: var(--gold-light); }
-
-  .footer-link svg {
-    width: 15px;
-    height: 15px;
-    fill: currentColor;
-  }
-
-  .footer-copy {
-    font-size: 0.65rem;
-    color: rgba(138,138,138,0.4);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 1.8rem;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --navy:        #0B1D3A;
+  --navy-deep:   #050D1A;
+  --navy-mid:    #0F2645;
+  --navy-light:  #163158;
+  --navy-surface:#0A1929;
+  --gold:        #C4A45A;
+  --gold-light:  #D4BA7A;
+  --gold-pale:   #E8D9B0;
+  --gold-glow:   rgba(196,164,90,0.12);
+  --gold-faint:  rgba(196,164,90,0.06);
+  --gold-line:   rgba(196,164,90,0.18);
+  --white:       #FFFFFF;
+  --cream:       rgba(255,255,255,0.88);
+  --muted:       rgba(255,255,255,0.42);
+  --rule:        rgba(196,164,90,0.12);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Raleway', 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--navy-deep);
+  color: var(--white);
+  line-height: 1.7;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ═══ PIN ═══ */
+#pin-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--navy-deep);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+#pin-screen::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 20% 20%, rgba(196,164,90,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 60% at 80% 80%, rgba(22,49,88,0.5) 0%, transparent 60%);
+  pointer-events: none;
+}
+#pin-screen::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(196,164,90,0.10) 1px, transparent 1px);
+  background-size: 44px 44px; pointer-events: none; opacity: 0.6;
+}
+#pin-screen.unlocking { opacity: 0; transform: scale(1.03); pointer-events: none; }
+
+.pin-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+.pin-overline {
+  font-size: 10px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2rem;
+  opacity: 0; animation: revealUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+}
+.pin-title {
+  font-family: var(--serif); font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 300; line-height: 1.05; color: var(--white); text-align: center;
+  margin-bottom: 0.35rem; letter-spacing: -0.01em;
+  opacity: 0; animation: revealUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
+}
+.pin-title em { font-style: italic; color: var(--gold-light); }
+.pin-divider {
+  width: 40px; height: 1px; background: var(--gold); margin: 1.5rem auto 1.75rem;
+  opacity: 0; animation: revealUp 0.9s ease 0.65s forwards;
+}
+.pin-sub {
+  font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2.5rem;
+  opacity: 0; animation: revealUp 0.9s ease 0.7s forwards;
+}
+.pin-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(196,164,90,0.45); margin-bottom: 1.25rem;
+  opacity: 0; animation: revealUp 0.9s ease 0.85s forwards;
+}
+.pin-dots {
+  display: flex; gap: 1rem; margin-bottom: 2.25rem;
+  opacity: 0; animation: revealUp 0.9s ease 0.95s forwards;
+}
+.pin-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 1px solid rgba(196,164,90,0.35); background: transparent;
+  transition: background 0.2s, border-color 0.25s, transform 0.18s;
+}
+.pin-dot.filled { background: var(--gold); border-color: var(--gold); transform: scale(1.15); }
+.pin-keypad {
+  display: grid; grid-template-columns: repeat(3, 64px); gap: 0.65rem;
+  opacity: 0; animation: revealUp 0.9s ease 1.05s forwards;
+}
+.pin-key {
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 1px solid rgba(196,164,90,0.15); background: rgba(255,255,255,0.03);
+  color: var(--white); font-family: var(--serif); font-size: 1.4rem; font-weight: 300;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.18s, border-color 0.18s, transform 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.pin-key:hover { background: rgba(196,164,90,0.08); border-color: rgba(196,164,90,0.35); }
+.pin-key.pressed { background: rgba(196,164,90,0.14); border-color: rgba(196,164,90,0.5); transform: scale(0.92); }
+.pin-key.key-empty { border: none; background: transparent; pointer-events: none; }
+.pin-key.key-del { font-family: var(--sans); font-size: 1rem; color: rgba(255,255,255,0.35); }
+.pin-error {
+  margin-top: 1.25rem; font-size: 10px; letter-spacing: 2px;
+  color: rgba(220,100,100,0.7); opacity: 0; transition: opacity 0.3s; text-align: center;
+}
+.pin-error.show { opacity: 1; }
+
+/* ═══ PAGE ═══ */
+#page {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 1.1s ease 0.2s, transform 1.1s ease 0.2s;
+  pointer-events: none;
+}
+#page.revealed { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* ═══ HERO ═══ */
+.hero {
+  min-height: 92vh; display: flex; align-items: center; justify-content: center;
+  background: var(--navy-deep); position: relative; overflow: hidden;
+  padding: 80px 32px 60px; isolation: isolate;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 55% 60% at 95% 5%, rgba(196,164,90,0.09) 0%, transparent 55%),
+              radial-gradient(ellipse 40% 40% at 85% 0%, rgba(22,49,88,0.6) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(196,164,90,0.2) 10%, rgba(196,164,90,0.75) 35%, rgba(196,164,90,1) 50%, rgba(196,164,90,0.75) 65%, rgba(196,164,90,0.2) 90%, transparent 100%);
+  z-index: 5;
+}
+.hero-dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(196,164,90,0.10) 1px, transparent 1px);
+  background-size: 44px 44px; pointer-events: none; opacity: 0.5; z-index: 0;
+}
+.hero-geo { position: absolute; pointer-events: none; z-index: 0; }
+.hero-geo--ring {
+  width: 400px; height: 400px; border-radius: 50%;
+  border: 1px solid rgba(196,164,90,0.06); top: -120px; right: -80px;
+  animation: geoFloat 20s ease-in-out infinite;
+}
+.hero-geo--ring2 {
+  width: 280px; height: 280px; border-radius: 50%;
+  border: 1px solid rgba(196,164,90,0.04); bottom: -60px; left: -60px;
+  animation: geoFloat 24s ease-in-out infinite reverse;
+}
+.hero-geo--line {
+  width: 1px; height: 160px;
+  background: linear-gradient(180deg, transparent, rgba(196,164,90,0.15), transparent);
+  top: 10%; left: 12%; animation: geoFloat 16s ease-in-out infinite;
+}
+.hero-geo--diamond {
+  width: 14px; height: 14px; border: 1px solid rgba(196,164,90,0.12); transform: rotate(45deg);
+  top: 25%; right: 18%; animation: geoPulse 6s ease-in-out infinite;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 760px; text-align: center; }
+.hero-overline {
+  font-size: 10px; font-weight: 600; letter-spacing: 6px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 28px;
+  opacity: 0; animation: revealUp 1s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+}
+.hero-title {
+  font-family: var(--serif); font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 300; line-height: 1.0; color: var(--white); margin-bottom: 24px; letter-spacing: -0.02em;
+  opacity: 0; animation: revealUp 1s cubic-bezier(0.22,1,0.36,1) 0.4s forwards;
+}
+.hero-title em {
+  font-style: italic; font-weight: 400;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-divider {
+  width: 48px; height: 1px; background: var(--gold); margin: 0 auto 24px;
+  opacity: 0; animation: revealUp 1s ease 0.55s forwards;
+}
+.hero-desc {
+  font-size: 15px; font-weight: 300; color: var(--muted); max-width: 520px; margin: 0 auto;
+  line-height: 1.85; letter-spacing: 0.3px;
+  opacity: 0; animation: revealUp 1s cubic-bezier(0.22,1,0.36,1) 0.65s forwards;
+}
+.hero-scroll {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  z-index: 1; opacity: 0; animation: revealUp 1s ease 1.2s forwards;
+}
+.hero-scroll span {
+  display: block; width: 1px; height: 40px;
+  background: linear-gradient(180deg, var(--gold), transparent); margin: 0 auto;
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ═══ SIDE NAV ═══ */
+.side-nav-toggle {
+  position: fixed; top: 32px; left: 28px; z-index: 200;
+  width: 40px; height: 40px; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; gap: 5px;
+  cursor: pointer; background: none; border: none; -webkit-tap-highlight-color: transparent;
+}
+.side-nav-toggle span {
+  display: block; width: 24px; height: 1px; background: var(--gold);
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease, width 0.4s cubic-bezier(0.22,1,0.36,1);
+  transform-origin: center;
+}
+.side-nav-toggle span:nth-child(2) { width: 16px; }
+.side-nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); width: 24px; }
+.side-nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.side-nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); width: 24px; }
+
+.side-nav-overlay {
+  position: fixed; inset: 0; z-index: 149;
+  background: rgba(5,13,26,0.65); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none; transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.side-nav-overlay.show { opacity: 1; pointer-events: auto; }
+
+.side-nav {
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 150;
+  width: 280px; background: var(--navy-deep); border-right: 1px solid rgba(196,164,90,0.1);
+  transform: translateX(-100%); transition: transform 0.65s cubic-bezier(0.22,1,0.36,1);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.side-nav::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(196,164,90,0.08) 1px, transparent 1px);
+  background-size: 44px 44px; pointer-events: none; opacity: 0.5;
+}
+.side-nav::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent); opacity: 0.4;
+}
+.side-nav.open { transform: translateX(0); }
+.side-nav-header {
+  position: relative; z-index: 1; padding: 36px 32px 28px;
+  border-bottom: 1px solid rgba(196,164,90,0.1);
+}
+.side-nav-brand {
+  font-family: var(--sans); font-size: 10px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 6px;
+}
+.side-nav-subtitle {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 300;
+  font-style: italic; color: rgba(255,255,255,0.5);
+}
+.side-nav-links {
+  position: relative; z-index: 1; flex: 1; padding: 20px 0;
+  overflow-y: auto; scrollbar-width: none;
+}
+.side-nav-links::-webkit-scrollbar { display: none; }
+.side-nav-link {
+  display: flex; align-items: center; gap: 16px; padding: 14px 32px;
+  text-decoration: none; font-size: 10px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.35);
+  position: relative; transition: color 0.3s ease, background 0.3s ease;
+  border-left: 2px solid transparent;
+}
+.side-nav-link::before {
+  content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  width: 0; height: 1px; background: var(--gold);
+  transition: width 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.side-nav-link:hover { color: var(--white); background: rgba(196,164,90,0.05); }
+.side-nav-link:hover::before { width: 20px; }
+.side-nav-link.active { color: var(--gold); border-left-color: var(--gold); background: rgba(196,164,90,0.06); }
+.side-nav-link.active::before { width: 20px; }
+.side-nav-link-num {
+  font-family: var(--serif); font-size: 11px; font-style: italic;
+  color: rgba(196,164,90,0.35); min-width: 16px; transition: color 0.3s ease;
+}
+.side-nav-link:hover .side-nav-link-num, .side-nav-link.active .side-nav-link-num { color: var(--gold); }
+.side-nav-divider { margin: 8px 32px; height: 1px; background: rgba(196,164,90,0.08); }
+.side-nav-footer {
+  position: relative; z-index: 1; padding: 24px 32px;
+  border-top: 1px solid rgba(196,164,90,0.08);
+}
+.side-nav-footer-text {
+  font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,0.15);
+}
+.side-nav.open .side-nav-link { animation: linkReveal 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+.side-nav.open .side-nav-link:nth-child(1) { animation-delay: 0.12s; }
+.side-nav.open .side-nav-link:nth-child(2) { animation-delay: 0.18s; }
+.side-nav.open .side-nav-link:nth-child(3) { animation-delay: 0.24s; }
+.side-nav.open .side-nav-link:nth-child(4) { animation-delay: 0.30s; }
+.side-nav.open .side-nav-link:nth-child(5) { animation-delay: 0.36s; }
+
+/* ═══ MAIN LAYOUT ═══ */
+.main { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 60px 0; border-bottom: 1px solid var(--rule); }
+.section:last-child { border-bottom: none; }
+.section-overline {
+  font-size: 9px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px; display: block;
+}
+.section-title {
+  font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 32px;
+  position: relative; padding-bottom: 24px;
+}
+.section-title::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 36px; height: 1px; background: var(--gold);
+}
+.section-title em { font-style: italic; color: var(--gold-light); }
+
+/* ═══ PHASE BLOCKS ═══ */
+.phase-entry {
+  display: grid; grid-template-columns: 52px 1fr;
+  padding: 40px 0; border-bottom: 1px solid var(--rule);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.phase-entry.visible { opacity: 1; transform: translateY(0); }
+.phase-entry:last-child { border-bottom: none; }
+.phase-roman {
+  font-family: var(--serif); font-size: 12px; font-style: italic;
+  color: var(--gold); letter-spacing: 1px; padding-top: 4px;
+}
+.phase-main { padding-left: 32px; border-left: 1px solid var(--rule); }
+.phase-name {
+  font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 20px;
+}
+.phase-name em { font-style: italic; font-weight: 300; color: var(--gold-light); }
+
+/* ═══ GOLDEN RULE ═══ */
+.golden-rule {
+  background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+  border: 1px solid var(--gold-line); padding: 36px 40px; margin: 32px 0;
+  position: relative; overflow: hidden;
+}
+.golden-rule::before {
+  content: '"'; font-family: var(--serif); font-size: 9rem; line-height: 1;
+  color: rgba(196,164,90,0.07); position: absolute; right: 20px; top: -8px; pointer-events: none;
+}
+.golden-rule::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.gr-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px; display: block;
+}
+.gr-text {
+  font-family: var(--serif); font-size: 1.15rem; font-style: italic;
+  color: var(--cream); line-height: 1.75; font-weight: 300;
+}
+.gr-text strong { font-style: normal; font-weight: 600; color: var(--gold-pale); }
+
+/* ═══ DEFINITION BLOCK ═══ */
+.def-block {
+  background: rgba(196,164,90,0.04); border-left: 2px solid rgba(196,164,90,0.3);
+  padding: 20px 24px; margin-bottom: 20px;
+}
+.def-block p { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.85; }
+.def-block strong { color: var(--cream); font-weight: 500; }
+.def-block em { color: var(--gold-light); font-style: italic; }
+
+/* ═══ WILL ITEMS ═══ */
+.will-item {
+  display: grid; grid-template-columns: 52px 1fr;
+  padding: 36px 0; border-bottom: 1px solid var(--rule);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.will-item.visible { opacity: 1; transform: translateY(0); }
+.will-item:last-child { border-bottom: none; }
+.will-num {
+  font-family: var(--serif); font-size: 1.6rem; font-style: italic;
+  color: var(--gold); opacity: 0.6; padding-top: 2px;
+}
+.will-body { padding-left: 32px; border-left: 1px solid var(--rule); }
+.will-title {
+  font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 16px;
+}
+.will-title em { font-style: italic; font-weight: 300; color: var(--gold-light); }
+.will-body > p { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
+
+/* ═══ EXAMPLES WITH TRANSLATION TOGGLE ═══ */
+.example-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.example-item { display: flex; flex-direction: column; gap: 4px; }
+.example-en {
+  font-family: var(--serif); font-size: 1.12rem; font-style: italic;
+  color: var(--cream); line-height: 1.55;
+}
+.example-en::before { content: "— "; color: var(--gold); font-style: normal; font-size: 0.85rem; }
+.trans-toggle {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 2px 0;
+}
+.trans-toggle span {
+  font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(196,164,90,0.4); transition: color 0.2s;
+}
+.trans-toggle svg {
+  width: 8px; height: 8px; fill: rgba(196,164,90,0.4);
+  transition: transform 0.25s, fill 0.2s;
+}
+.trans-toggle:hover span { color: var(--gold); }
+.trans-toggle:hover svg { fill: var(--gold); }
+.trans-toggle.open svg { transform: rotate(180deg); }
+.trans-text {
+  display: none; font-size: 12px; font-weight: 300;
+  color: rgba(255,255,255,0.32); font-style: normal;
+  padding-left: 20px; line-height: 1.6;
+}
+.trans-text.visible { display: block; }
+
+/* ═══ CONTRAST GRID ═══ */
+.contrast-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--gold-line); margin-top: 24px;
+}
+.contrast-cell { background: var(--navy-mid); padding: 20px 24px; }
+.contrast-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px; display: block;
+}
+
+/* ═══ ADENDO ═══ */
+.adendo {
+  border-left: 2px solid rgba(196,164,90,0.2); padding: 20px 24px;
+  margin-top: 20px; background: rgba(196,164,90,0.04);
+}
+.adendo-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px; display: block;
+}
+.adendo p { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.85; }
+.adendo strong { color: var(--cream); font-weight: 500; }
+.adendo em { color: var(--gold-light); font-style: italic; }
+
+/* ═══ MORE / FOOTER ═══ */
+.more-section {
+  background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 100%);
+  padding: 80px 32px; display: flex; justify-content: space-between; align-items: center;
+  gap: 40px; flex-wrap: wrap; border-top: 1px solid var(--rule);
+  position: relative; overflow: hidden;
+}
+.more-section::before {
+  content: ''; position: absolute; top: -40%; right: -8%;
+  width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,164,90,0.06) 0%, transparent 65%); pointer-events: none;
+}
+.more-left {
+  font-family: var(--serif); font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  font-weight: 300; line-height: 1.45; color: var(--white); max-width: 380px;
+}
+.more-left em { font-style: italic; color: var(--gold-light); }
+.more-links { display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 1; }
+.btn-more {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--white); text-decoration: none; padding-bottom: 4px;
+  border-bottom: 1px solid rgba(196,164,90,0.25); transition: color 0.25s, border-color 0.25s;
+}
+.btn-more:hover { color: var(--gold-light); border-color: var(--gold-light); }
+.btn-more.secondary { color: var(--muted); border-bottom-color: rgba(196,164,90,0.1); }
+.btn-more.secondary:hover { color: rgba(255,255,255,0.65); border-bottom-color: rgba(196,164,90,0.3); }
+.btn-arrow { transition: transform 0.25s; }
+.btn-more:hover .btn-arrow { transform: translateX(4px); }
+
+footer {
+  background: var(--navy-deep); text-align: center; padding: 44px 24px;
+  border-top: 1px solid var(--rule); position: relative;
+}
+footer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.25;
+}
+.footer-brand { font-family: var(--serif); font-size: 1.1rem; color: var(--gold); margin-bottom: 6px; letter-spacing: 1px; }
+.footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 10px; }
+.footer-link {
+  display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
+  color: rgba(255,255,255,0.3); font-size: 11px; letter-spacing: 0.06em; transition: color 0.2s;
+}
+.footer-link:hover { color: var(--gold-light); }
+.footer-link svg { width: 14px; height: 14px; fill: currentColor; }
+.footer-copy { font-size: 10.5px; color: rgba(255,255,255,0.18); letter-spacing: 0.5px; margin-top: 14px; }
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes geoFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+@keyframes geoPulse {
+  0%,100% { opacity: 0.5; transform: rotate(45deg) scale(1); }
+  50% { opacity: 1; transform: rotate(45deg) scale(1.3); }
+}
+@keyframes scrollPulse {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  50.01% { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+@keyframes linkReveal {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  .hero { min-height: 80vh; padding: 60px 20px 40px; }
+  .hero-geo--ring, .hero-geo--ring2 { display: none; }
+  .hero-scroll { display: none; }
+  .main { padding: 0 20px; }
+  .section { padding: 48px 0; }
+  .phase-entry, .will-item { grid-template-columns: 36px 1fr; }
+  .phase-main, .will-body { padding-left: 18px; }
+  .contrast-grid { grid-template-columns: 1fr; }
+  .more-section { flex-direction: column; align-items: flex-start; padding: 60px 20px; }
+  footer { padding: 36px 20px; }
+}
 </style>
 </head>
 <body>
 
-<!-- PIN OVERLAY -->
-<div id="pin-overlay">
-  <div class="lock-logo">MD Talk</div>
-  <h2>Future Forms <em>I</em></h2>
-  <p>Insira o PIN para acessar o conteúdo</p>
-
-  <div class="pin-box">
+<!-- ═══ PIN ═══ -->
+<div id="pin-screen">
+  <div class="pin-inner">
+    <p class="pin-overline">Instituto MD Talk</p>
+    <h2 class="pin-title">Future Forms <em>I</em></h2>
+    <div class="pin-divider"></div>
+    <p class="pin-sub">Grammar Series · B1–B2</p>
+    <p class="pin-label">Enter access PIN</p>
     <div class="pin-dots">
-      <div class="pin-dot" id="d1"></div>
-      <div class="pin-dot" id="d2"></div>
-      <div class="pin-dot" id="d3"></div>
-      <div class="pin-dot" id="d4"></div>
+      <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
     </div>
-    <input type="password" id="pin-input" class="pin-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="····">
-    <div class="pin-error" id="pin-error"></div>
+    <div class="pin-keypad">
+      <button class="pin-key" data-v="1">1</button><button class="pin-key" data-v="2">2</button><button class="pin-key" data-v="3">3</button>
+      <button class="pin-key" data-v="4">4</button><button class="pin-key" data-v="5">5</button><button class="pin-key" data-v="6">6</button>
+      <button class="pin-key" data-v="7">7</button><button class="pin-key" data-v="8">8</button><button class="pin-key" data-v="9">9</button>
+      <button class="pin-key key-empty"></button><button class="pin-key" data-v="0">0</button><button class="pin-key key-del" data-v="del">⌫</button>
+    </div>
+    <p class="pin-error" id="pin-error">PIN incorreto. Tente novamente.</p>
   </div>
 </div>
 
-<!-- MAIN CONTENT (blurred until unlocked) -->
-<div id="main-content">
+<!-- ═══ PAGE ═══ -->
+<div id="page">
 
-  <header>
-    <div class="brand-label">MD Talk — Grammar Series</div>
-    <h1>Future Forms <em>I</em></h1>
-    <div class="header-sub">Going To &middot; Present Continuous &middot; Will &middot; Shall</div>
-    <div class="gold-line"></div>
-  </header>
+<button class="side-nav-toggle" id="navToggle" onclick="toggleNav()">
+  <span></span><span></span><span></span>
+</button>
+<div class="side-nav-overlay" id="navOverlay" onclick="closeNav()"></div>
+<div class="side-nav" id="sideNav">
+  <div class="side-nav-header">
+    <span class="side-nav-brand">MD Talk</span>
+    <span class="side-nav-subtitle">Future Forms I</span>
+  </div>
+  <nav class="side-nav-links">
+    <a href="#intro"      class="side-nav-link" onclick="closeNav()"><span class="side-nav-link-num">★</span>Introdução</a>
+    <a href="#going-to"   class="side-nav-link" onclick="closeNav()"><span class="side-nav-link-num">I</span>Going To</a>
+    <a href="#continuous" class="side-nav-link" onclick="closeNav()"><span class="side-nav-link-num">II</span>Present Continuous</a>
+    <a href="#will"       class="side-nav-link" onclick="closeNav()"><span class="side-nav-link-num">III</span>Will — 5 usos</a>
+    <a href="#shall"      class="side-nav-link" onclick="closeNav()"><span class="side-nav-link-num">IV</span>Shall</a>
+  </nav>
+  <div class="side-nav-footer">
+    <span class="side-nav-footer-text">Grammar Series · B1–B2</span>
+  </div>
+</div>
 
-  <main>
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-geo hero-geo--ring"></div>
+  <div class="hero-geo hero-geo--ring2"></div>
+  <div class="hero-geo hero-geo--line"></div>
+  <div class="hero-geo hero-geo--diamond"></div>
+  <div class="hero-inner">
+    <p class="hero-overline">Instituto MD Talk · Grammar Series · B1–B2</p>
+    <h1 class="hero-title">Future<br><em>Forms I</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">Going To · Present Continuous · Will · Shall — porque a escolha da estrutura muda o que o nativo entende.</p>
+  </div>
+  <div class="hero-scroll"><span></span></div>
+</header>
 
-    <!-- INTRO -->
-    <section class="intro-section">
-      <p>
-        Quando falamos sobre o futuro em inglês, temos <strong>estruturas distintas</strong> — e cada uma delas comunica uma intenção diferente para quem escuta. Diferentemente do português, onde "vou fazer", "farei" e "estou fazendo" muitas vezes se intercambiam sem grande impacto, em inglês a escolha entre <strong>going to</strong>, o <strong>gerúndio com expressão de tempo futuro</strong> e o <strong>will</strong> carrega peso semântico real.
-      </p>
-      <p>
-        Um falante nativo <strong>vai interpretar o que você quis dizer com base na estrutura que você usou</strong> — não somente no contexto. Dizer <em>"I will meet you tomorrow"</em> soa como uma promessa firme, enquanto <em>"I'm meeting you tomorrow"</em> indica um compromisso já agendado. Usar a forma errada pode gerar expectativas equivocadas, parecer impreciso ou até informal demais para o contexto clínico ou profissional.
-      </p>
-      <p>
-        Nesta aula, você vai entender cada forma, quando usá-la e por quê — com exemplos prontos para aplicar na sua comunicação.
-      </p>
-    </section>
+<!-- ═══ MAIN ═══ -->
+<main class="main">
 
-    <!-- ── GOING TO ── -->
-    <div class="section-tag">Forma 1</div>
-    <div class="section-title">Going to</div>
-    <p class="section-intro">Para planos e intenções pessoais futuras.</p>
+  <!-- INTRO -->
+  <section class="section" id="intro">
+    <span class="section-overline">Por que isso importa</span>
+    <h2 class="section-title">A escolha da estrutura <em>muda tudo</em></h2>
 
-    <div class="form-card">
-      <div class="form-card-header">
-        <span class="form-label">be going to + verb</span>
-        <span class="form-tag">intenção</span>
-      </div>
-      <div class="form-card-body">
-        <div class="definition-block">
-          <p>
-            <strong>Intenção</strong>, no inglês, é uma decisão já tomada sobre o futuro — algo que você decidiu fazer, mas que ainda não está necessariamente agendado. O ponto crucial: <strong>mesmo que você tenha certeza absoluta</strong> de que vai fazer algo (como tomar banho depois da aula), ainda se trata da sua intenção pessoal — e por isso usamos <em>going to</em>. Certeza subjetiva não muda a estrutura.
-          </p>
+    <div class="phase-entry" data-reveal>
+      <div class="phase-roman">—</div>
+      <div class="phase-main">
+        <p style="font-size:15px;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:20px;">Quando falamos sobre o futuro em inglês, temos <strong style="color:var(--cream);font-weight:500;">estruturas distintas</strong> — e cada uma comunica uma intenção diferente para quem escuta. Diferente do português, onde "vou fazer", "farei" e "estou fazendo" se intercambiam sem grande impacto, em inglês a escolha entre <strong style="color:var(--cream);font-weight:500;">going to</strong>, o <strong style="color:var(--cream);font-weight:500;">gerúndio futuro</strong> e o <strong style="color:var(--cream);font-weight:500;">will</strong> carrega peso semântico real.</p>
+        <div class="golden-rule">
+          <span class="gr-label">Regra de Ouro do Futuro</span>
+          <p class="gr-text">Um falante nativo <strong>vai interpretar o que você quis dizer com base na estrutura que você usou</strong> — não somente no contexto. Usar a forma errada pode gerar expectativas equivocadas, parecer impreciso ou sinalizar falta de domínio.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+            <div style="font-family:var(--serif);font-size:1.05rem;color:rgba(150,220,150,0.85);"><span style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(150,220,150,0.5);margin-right:12px;">compromisso</span><em>"I'm meeting you tomorrow"</em> — já está agendado com outra parte</div>
+            <div style="font-family:var(--serif);font-size:1.05rem;color:rgba(196,164,90,0.85);"><span style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(196,164,90,0.4);margin-right:12px;">promessa</span><em>"I will meet you tomorrow"</em> — comprometimento firme e pessoal</div>
+          </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <ul class="examples-list">
+  <!-- GOING TO -->
+  <section class="section" id="going-to">
+    <span class="section-overline">Forma 01</span>
+    <h2 class="section-title"><em>Going To</em></h2>
+
+    <div class="phase-entry" data-reveal>
+      <div class="phase-roman">I</div>
+      <div class="phase-main">
+        <h3 class="phase-name">be going to + verb — <em>intenção pessoal</em></h3>
+        <div class="def-block">
+          <p><strong>Intenção</strong> é uma decisão já tomada sobre o futuro — algo que você decidiu fazer, mas que ainda não está agendado com outra parte. O ponto crucial: <strong>mesmo com certeza absoluta</strong> de que vai fazer algo (como tomar banho depois da aula), ainda se trata da sua intenção pessoal. <em>Certeza subjetiva não muda a estrutura.</em></p>
+        </div>
+        <ul class="example-list">
           <li class="example-item">
             <span class="example-en">I'm going to review the imaging results tonight.</span>
-            <button class="translation-toggle" onclick="toggleTranslation(this)">
-              <span>ver tradução</span>
-              <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
-            </button>
-            <span class="translation-text">Vou revisar os resultados de imagem hoje à noite.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Vou revisar os resultados de imagem hoje à noite.</span>
           </li>
           <li class="example-item">
             <span class="example-en">She's going to apply for the fellowship next year.</span>
-            <button class="translation-toggle" onclick="toggleTranslation(this)">
-              <span>ver tradução</span>
-              <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
-            </button>
-            <span class="translation-text">Ela vai se candidatar ao fellowship no próximo ano.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Ela vai se candidatar ao fellowship no próximo ano.</span>
           </li>
           <li class="example-item">
             <span class="example-en">We're going to change the antibiotic regimen.</span>
-            <button class="translation-toggle" onclick="toggleTranslation(this)">
-              <span>ver tradução</span>
-              <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
-            </button>
-            <span class="translation-text">Vamos mudar o esquema antibiótico.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Vamos mudar o esquema antibiótico.</span>
           </li>
         </ul>
-
-        <div class="shall-note" style="margin-top:1.4rem;">
-          <p><strong>Nota:</strong> <em>Going to</em> também é usado para <strong>previsão baseada em evidência</strong> — quando algo visível no presente indica um desfecho futuro. <em>"Look at those clouds — it's going to rain."</em> Isso o distingue do <em>will</em> de previsão, que veremos adiante.</p>
+        <div class="adendo" style="margin-top:24px;">
+          <span class="adendo-label">Segundo uso — previsão baseada em evidência</span>
+          <p><em>Going to</em> também expressa uma previsão quando há <strong>algo visível no presente</strong> que indica diretamente o desfecho. <em>"Look at those clouds — it's going to rain."</em> Isso o distingue do <em>will</em> de previsão, que veremos adiante.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="section-divider"><div class="divider-mark"></div></div>
+  <!-- PRESENT CONTINUOUS -->
+  <section class="section" id="continuous">
+    <span class="section-overline">Forma 02</span>
+    <h2 class="section-title">Present Continuous <em>futuro</em></h2>
 
-    <!-- ── PRESENT CONTINUOUS ── -->
-    <div class="section-tag">Forma 2</div>
-    <div class="section-title">Present Continuous</div>
-    <p class="section-intro">Para compromissos e planos já acordados com outra pessoa ou instituição.</p>
-
-    <div class="form-card">
-      <div class="form-card-header">
-        <span class="form-label">verb + -ing + future time expression</span>
-        <span class="form-tag">compromisso</span>
-      </div>
-      <div class="form-card-body">
-        <div class="definition-block">
-          <p>
-            <strong>Compromisso</strong>, em inglês, é um plano que envolve outra parte — alguém ou alguma instituição está esperando por você. Não se trata apenas de intenção: existe um horário, uma agenda, uma expectativa mútua. <strong>A expressão de tempo futuro é obrigatória</strong> para que fique claro que não estamos falando do presente.
-          </p>
+    <div class="phase-entry" data-reveal>
+      <div class="phase-roman">II</div>
+      <div class="phase-main">
+        <h3 class="phase-name">verb + -ing + future time expression — <em>compromisso</em></h3>
+        <div class="def-block">
+          <p><strong>Compromisso</strong> é um plano que envolve outra parte — alguém ou alguma instituição está esperando por você. Não se trata de intenção: existe um horário, uma agenda, uma expectativa mútua. <strong>A expressão de tempo futuro é obrigatória</strong> para que fique claro que não falamos do presente.</p>
         </div>
-
-        <ul class="examples-list">
+        <ul class="example-list">
           <li class="example-item">
             <span class="example-en">I'm presenting at the conference next Friday.</span>
-            <button class="translation-toggle" onclick="toggleTranslation(this)">
-              <span>ver tradução</span>
-              <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
-            </button>
-            <span class="translation-text">Vou apresentar na conferência na próxima sexta. (já está agendado)</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Vou apresentar na conferência na próxima sexta. (já está agendado)</span>
           </li>
           <li class="example-item">
             <span class="example-en">The patient is having surgery tomorrow morning.</span>
-            <button class="translation-toggle" onclick="toggleTranslation(this)">
-              <span>ver tradução</span>
-              <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
-            </button>
-            <span class="translation-text">O paciente vai fazer cirurgia amanhã de manhã. (já marcado)</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">O paciente vai fazer cirurgia amanhã de manhã. (já marcado)</span>
           </li>
           <li class="example-item">
             <span class="example-en">We're meeting the department head on Thursday.</span>
-            <button class="translation-toggle" onclick="toggleTranslation(this)">
-              <span>ver tradução</span>
-              <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
-            </button>
-            <span class="translation-text">Vamos nos reunir com o chefe do departamento na quinta.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Vamos nos reunir com o chefe do departamento na quinta.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- WILL -->
+  <section class="section" id="will">
+    <span class="section-overline">Forma 03</span>
+    <h2 class="section-title"><em>Will</em> — cinco usos essenciais</h2>
+
+    <div class="phase-entry" data-reveal>
+      <div class="phase-roman">—</div>
+      <div class="phase-main">
+        <p style="font-size:15px;font-weight:300;color:var(--muted);line-height:1.9;">O <em style="color:var(--gold-light);">will</em> <strong style="color:var(--cream);font-weight:500;">não é o futuro genérico do inglês</strong>. Tem nove usos reconhecidos — aqui abordamos os cinco mais importantes para sua comunicação clínica e profissional. Cada uso carrega uma função precisa; nativos percebem imediatamente quando a forma está fora do contexto.</p>
+      </div>
+    </div>
+
+    <div class="will-item" data-reveal>
+      <div class="will-num">1</div>
+      <div class="will-body">
+        <h3 class="will-title">Oferta espontânea — <em>nasce da percepção de uma necessidade</em></h3>
+        <p>Quando você decide na hora oferecer ajuda ou fazer algo por alguém. É espontâneo, não planejado.</p>
+        <ul class="example-list">
+          <li class="example-item">
+            <span class="example-en">I'll get the patient's chart for you.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Eu pego o prontuário do paciente para você.</span>
+          </li>
+          <li class="example-item">
+            <span class="example-en">Don't worry — I'll explain it to the family.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Não se preocupe — eu explico para a família.</span>
           </li>
         </ul>
       </div>
     </div>
 
-    <div class="section-divider"><div class="divider-mark"></div></div>
-
-    <!-- ── WILL ── -->
-    <div class="will-section">
-      <div class="section-tag">Forma 3</div>
-      <div class="section-title">Will</div>
-      <p class="section-intro">O <em>will</em> tem nove usos reconhecidos — aqui abordamos os cinco mais importantes para sua comunicação clínica e profissional.</p>
-
-      <p class="will-intro">
-        O <em>will</em> <strong>não é o futuro genérico do inglês</strong>. Cada uso carrega uma função precisa. Usá-lo fora do contexto certo é um dos erros mais frequentes de falantes não nativos — e que nativos percebem imediatamente.
-      </p>
-
-      <!-- 1. Oferta -->
-      <div class="will-use">
-        <div class="will-use-header">
-          <div class="will-number">1</div>
-          <span class="will-use-title">Oferta espontânea</span>
-        </div>
-        <div class="will-use-body">
-          <p>Quando você decide na hora oferecer ajuda ou fazer algo por alguém. É espontâneo, não planejado.</p>
-          <ul class="examples-list">
-            <li class="example-item">
-              <span class="example-en">I'll get the patient's chart for you.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Eu pego o prontuário do paciente para você.</span>
-            </li>
-            <li class="example-item">
-              <span class="example-en">Don't worry — I'll explain it to the family.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Não se preocupe — eu explico para a família.</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- 2. Promessa -->
-      <div class="will-use">
-        <div class="will-use-header">
-          <div class="will-number">2</div>
-          <span class="will-use-title">Promessa</span>
-        </div>
-        <div class="will-use-body">
-          <p>Um comprometimento firme e pessoal com alguém. O <em>will</em> aqui tem peso emocional e moral.</p>
-          <ul class="examples-list">
-            <li class="example-item">
-              <span class="example-en">I will call you as soon as the results come in.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Vou te ligar assim que os resultados chegarem.</span>
-            </li>
-            <li class="example-item">
-              <span class="example-en">We will do everything we can to manage your pain.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Vamos fazer tudo o que pudermos para controlar sua dor.</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- 3. Fato futuro -->
-      <div class="will-use">
-        <div class="will-use-header">
-          <div class="will-number">3</div>
-          <span class="will-use-title">Fato futuro</span>
-        </div>
-        <div class="will-use-body">
-          <p>Eventos que vão acontecer independentemente de qualquer intenção ou plano — estão <strong>fora do seu controle</strong>, são consequências naturais ou inevitáveis.</p>
-          <ul class="examples-list">
-            <li class="example-item">
-              <span class="example-en">The patient will experience some discomfort after the procedure.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">O paciente vai sentir algum desconforto após o procedimento.</span>
-            </li>
-            <li class="example-item">
-              <span class="example-en">The sun will rise at 6:14 tomorrow.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">O sol vai nascer às 6h14 amanhã.</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- 4. Decisão instantânea -->
-      <div class="will-use">
-        <div class="will-use-header">
-          <div class="will-number">4</div>
-          <span class="will-use-title">Decisão instantânea</span>
-        </div>
-        <div class="will-use-body">
-          <p>Você decide <strong>no exato momento da fala</strong> — não havia plano anterior. É o oposto do <em>going to</em>, que pressupõe uma decisão já tomada antes.</p>
-          <ul class="examples-list">
-            <li class="example-item">
-              <span class="example-en">The ECG looks abnormal — I'll order a cardiology consult.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">O ECG parece alterado — vou pedir um parecer de cardiologia. (decidiu agora)</span>
-            </li>
-            <li class="example-item">
-              <span class="example-en">The coffee machine is broken? I'll have tea then.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">A máquina de café quebrou? Então vou tomar chá.</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- 5. Previsão por opinião x evidência -->
-      <div class="will-use">
-        <div class="will-use-header">
-          <div class="will-number">5</div>
-          <span class="will-use-title">Previsão baseada em opinião</span>
-        </div>
-        <div class="will-use-body">
-          <p>Quando você acredita, estima ou supõe que algo vai acontecer — com base no seu julgamento, experiência ou intuição, e <strong>não em uma evidência concreta e visível no momento</strong>.</p>
-
-          <ul class="examples-list">
-            <li class="example-item">
-              <span class="example-en">I think the patient will respond well to the treatment.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Acho que o paciente vai responder bem ao tratamento. (opinião clínica)</span>
-            </li>
-            <li class="example-item">
-              <span class="example-en">The new guidelines will probably change how we approach this.</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">As novas diretrizes provavelmente vão mudar nossa abordagem.</span>
-            </li>
-          </ul>
-
-          <div class="contrast-box">
-            <div class="contrast-side">
-              <h4>Will — opinião</h4>
-              <ul class="examples-list">
-                <li class="example-item">
-                  <span class="example-en">I think he'll recover quickly.</span>
-                  <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-                  <span class="translation-text">Acho que ele vai se recuperar rápido. (sem evidência direta — opinião)</span>
-                </li>
-              </ul>
-            </div>
-            <div class="contrast-side">
-              <h4>Going to — evidência</h4>
-              <ul class="examples-list">
-                <li class="example-item">
-                  <span class="example-en">Look at his vitals — he's going to crash.</span>
-                  <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-                  <span class="translation-text">Olha os sinais vitais — ele vai entrar em colapso. (evidência concreta agora)</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
+    <div class="will-item" data-reveal>
+      <div class="will-num">2</div>
+      <div class="will-body">
+        <h3 class="will-title">Promessa — <em>comprometimento firme e pessoal</em></h3>
+        <p>Um comprometimento com alguém. O <em>will</em> aqui tem peso emocional e moral — uma expectativa é criada e deve ser cumprida.</p>
+        <ul class="example-list">
+          <li class="example-item">
+            <span class="example-en">I will call you as soon as the results come in.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Vou te ligar assim que os resultados chegarem.</span>
+          </li>
+          <li class="example-item">
+            <span class="example-en">We will do everything we can to manage your pain.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Vamos fazer tudo o que pudermos para controlar sua dor.</span>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <div class="section-divider"><div class="divider-mark"></div></div>
+    <div class="will-item" data-reveal>
+      <div class="will-num">3</div>
+      <div class="will-body">
+        <h3 class="will-title">Fato futuro — <em>fora do controle de qualquer pessoa</em></h3>
+        <p>Eventos que vão acontecer independentemente de intenção ou plano. São consequências naturais ou inevitáveis — <strong style="color:var(--cream);">não dependem de ninguém</strong>.</p>
+        <ul class="example-list">
+          <li class="example-item">
+            <span class="example-en">The patient will experience some discomfort after the procedure.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">O paciente vai sentir algum desconforto após o procedimento.</span>
+          </li>
+          <li class="example-item">
+            <span class="example-en">The sun will rise at 6:14 tomorrow.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">O sol vai nascer às 6h14 amanhã.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-    <!-- ── SHALL ── -->
-    <div class="shall-section">
-      <div class="section-tag">Forma 4</div>
-      <div class="section-title">Shall</div>
-      <p class="section-intro">Formal, mas presente no inglês falado — especialmente em ofertas e sugestões.</p>
+    <div class="will-item" data-reveal>
+      <div class="will-num">4</div>
+      <div class="will-body">
+        <h3 class="will-title">Decisão instantânea — <em>tomada no exato momento da fala</em></h3>
+        <p>Você decide <strong style="color:var(--cream);">no exato momento da fala</strong> — não havia plano anterior. É o oposto do <em>going to</em>, que pressupõe uma decisão já tomada.</p>
+        <ul class="example-list">
+          <li class="example-item">
+            <span class="example-en">The ECG looks abnormal — I'll order a cardiology consult.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">O ECG parece alterado — vou pedir um parecer de cardiologia. (decidiu agora)</span>
+          </li>
+          <li class="example-item">
+            <span class="example-en">The coffee machine is broken? I'll have tea then.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">A máquina de café quebrou? Então vou tomar chá.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-      <div class="form-card">
-        <div class="form-card-header">
-          <span class="form-label">Shall I / Shall we</span>
-          <span class="form-tag">oferta &middot; sugestão</span>
-        </div>
-        <div class="form-card-body">
-          <div class="definition-block">
-            <p><strong>Oferta com <em>shall</em>:</strong> usado para oferecer fazer algo por alguém, de forma cortês e levemente formal. Mais gentil do que <em>"Do you want me to...?"</em></p>
+    <div class="will-item" data-reveal>
+      <div class="will-num">5</div>
+      <div class="will-body">
+        <h3 class="will-title">Previsão por opinião — <em>vs. previsão por evidência (going to)</em></h3>
+        <p>Quando você estima ou supõe que algo vai acontecer com base no seu julgamento ou experiência — <strong style="color:var(--cream);">sem evidência concreta e visível no momento</strong>.</p>
+        <ul class="example-list">
+          <li class="example-item">
+            <span class="example-en">I think the patient will respond well to the treatment.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Acho que o paciente vai responder bem ao tratamento. (opinião clínica)</span>
+          </li>
+          <li class="example-item">
+            <span class="example-en">The new guidelines will probably change how we approach this.</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">As novas diretrizes provavelmente vão mudar nossa abordagem.</span>
+          </li>
+        </ul>
+        <div class="contrast-grid">
+          <div class="contrast-cell">
+            <span class="contrast-label">Will — opinião</span>
+            <ul class="example-list">
+              <li class="example-item">
+                <span class="example-en" style="font-size:1rem;">I think he'll recover quickly.</span>
+                <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+                <span class="trans-text">Acho que ele vai se recuperar rápido. (sem evidência direta — opinião)</span>
+              </li>
+            </ul>
           </div>
-          <ul class="examples-list">
-            <li class="example-item">
-              <span class="example-en">Shall I turn the AC on?</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Posso ligar o ar-condicionado? / Quer que eu ligue o ar?</span>
-            </li>
-            <li class="example-item">
-              <span class="example-en">Shall I go over the discharge instructions with the patient?</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Posso passar as instruções de alta com o paciente?</span>
-            </li>
-          </ul>
-
-          <div class="definition-block" style="margin-top:1.4rem;">
-            <p><strong>Sugestão com <em>shall</em>:</strong> equivale a "que tal...?" — mas com um detalhe importante: <strong>não é possível usar <em>let's</em> para fazer uma pergunta</strong>. <em>"Let's order pizza"</em> é uma afirmação, uma proposta direta. Quando você quer <em>perguntar</em> se a outra pessoa concorda com uma sugestão, usa-se <em>shall we</em>.</p>
-          </div>
-          <ul class="examples-list">
-            <li class="example-item">
-              <span class="example-en">Shall we order pizza?</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Que tal pedir pizza? (pergunta — abre espaço para a outra pessoa responder)</span>
-            </li>
-            <li class="example-item">
-              <span class="example-en">Shall we schedule a follow-up for next week?</span>
-              <button class="translation-toggle" onclick="toggleTranslation(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
-              <span class="translation-text">Que tal marcarmos um retorno para a semana que vem?</span>
-            </li>
-          </ul>
-
-          <div class="shall-note">
-            <p><strong>Lembre:</strong> <em>"Let's order pizza"</em> e <em>"Shall we order pizza?"</em> têm funções distintas. O <em>let's</em> propõe. O <em>shall we</em> pergunta. Em inglês, essa diferença é percebida — e importa no tom da conversa.</p>
+          <div class="contrast-cell">
+            <span class="contrast-label">Going to — evidência</span>
+            <ul class="example-list">
+              <li class="example-item">
+                <span class="example-en" style="font-size:1rem;">Look at his vitals — he's going to crash.</span>
+                <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+                <span class="trans-text">Olha os sinais vitais — ele vai entrar em colapso. (evidência concreta agora)</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ── PRACTICE BUTTON ── -->
-    <div class="practice-wrap">
-      <p class="practice-label">Próximo passo</p>
-      <a href="https://institutomdtalk.github.io/futureforms1exercises/" target="_blank" class="practice-btn">Hora de Praticar</a>
+  <!-- SHALL -->
+  <section class="section" id="shall">
+    <span class="section-overline">Forma 04</span>
+    <h2 class="section-title"><em>Shall</em> — oferta e sugestão</h2>
+
+    <div class="phase-entry" data-reveal>
+      <div class="phase-roman">I</div>
+      <div class="phase-main">
+        <h3 class="phase-name">Shall I — <em>oferta formal e cortês</em></h3>
+        <div class="def-block">
+          <p>Usado para oferecer fazer algo por alguém, de forma cortês e levemente formal. Mais gentil do que <em>"Do you want me to…?"</em></p>
+        </div>
+        <ul class="example-list">
+          <li class="example-item">
+            <span class="example-en">Shall I turn the AC on?</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Posso ligar o ar-condicionado? / Quer que eu ligue o ar?</span>
+          </li>
+          <li class="example-item">
+            <span class="example-en">Shall I go over the discharge instructions with the patient?</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Posso passar as instruções de alta com o paciente?</span>
+          </li>
+        </ul>
+      </div>
     </div>
 
-  </main>
-
-  <footer>
-    <div class="footer-brand">Instituto MD Talk</div>
-    <div class="footer-links">
-      <a href="https://instagram.com/inglesmedico.thaifaria" target="_blank" class="footer-link">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-        </svg>
-        @inglesmedico.thaifaria
-      </a>
-      <a href="https://wa.me/5514997758941" target="_blank" class="footer-link">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
-        +55 14 99775-8941
-      </a>
+    <div class="phase-entry" data-reveal>
+      <div class="phase-roman">II</div>
+      <div class="phase-main">
+        <h3 class="phase-name">Shall we — <em>sugestão na forma de pergunta</em></h3>
+        <div class="def-block">
+          <p>Equivale a "que tal…?" — com um detalhe importante: <strong>não é possível usar <em>let's</em> para fazer uma pergunta</strong>. <em>"Let's order pizza"</em> é uma proposta direta. Quando você quer perguntar se a outra pessoa concorda, usa-se <em>shall we</em>.</p>
+        </div>
+        <ul class="example-list">
+          <li class="example-item">
+            <span class="example-en">Shall we order pizza?</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Que tal pedir pizza? (pergunta — abre espaço para a outra pessoa responder)</span>
+          </li>
+          <li class="example-item">
+            <span class="example-en">Shall we schedule a follow-up for next week?</span>
+            <button class="trans-toggle" onclick="toggleTrans(this)"><span>ver tradução</span><svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg></button>
+            <span class="trans-text">Que tal marcarmos um retorno para a semana que vem?</span>
+          </li>
+        </ul>
+        <div class="adendo">
+          <span class="adendo-label">Let's vs. Shall we</span>
+          <p><em>"Let's order pizza"</em> e <em>"Shall we order pizza?"</em> têm funções distintas. O <strong>let's</strong> propõe. O <strong>shall we</strong> pergunta. Em inglês, essa diferença é percebida — e importa no tom da conversa.</p>
+        </div>
+      </div>
     </div>
-    <div class="footer-copy">MD Talk &mdash; Medical English Excellence</div>
-  </footer>
+  </section>
 
-</div><!-- end #main-content -->
+</main>
+
+<!-- CTA / MORE -->
+<div class="more-section">
+  <div class="more-left">Agora é hora de<br><em>praticar o que aprendeu.</em></div>
+  <div class="more-links">
+    <a href="https://institutomdtalk.github.io/futureforms1exercises/" target="_blank" class="btn-more">Hora de Praticar <span class="btn-arrow">&#8594;</span></a>
+    <a href="https://institutomdtalk.github.io/portaldoaluno/" target="_blank" class="btn-more secondary">Voltar ao Portal do Aluno <span class="btn-arrow">&#8594;</span></a>
+  </div>
+</div>
+
+<footer>
+  <p class="footer-brand">Instituto MD Talk</p>
+  <div class="footer-links">
+    <a href="https://instagram.com/inglesmedico.thaifaria" target="_blank" class="footer-link">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      @inglesmedico.thaifaria
+    </a>
+    <a href="https://wa.me/5514997758941" target="_blank" class="footer-link">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      +55 14 99775-8941
+    </a>
+  </div>
+  <p class="footer-copy">Future Forms I · Grammar Series · B1–B2 &nbsp;&#183;&nbsp; 2026</p>
+</footer>
+
+</div><!-- #page -->
 
 <script>
-  const PIN = '2204';
-  const input = document.getElementById('pin-input');
-  const overlay = document.getElementById('pin-overlay');
-  const content = document.getElementById('main-content');
-  const errorEl = document.getElementById('pin-error');
-  const dots = [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3'), document.getElementById('d4')];
-
-  input.addEventListener('input', () => {
-    const val = input.value.replace(/\D/g, '').slice(0, 4);
-    input.value = val;
-    errorEl.textContent = '';
-
-    dots.forEach((d, i) => d.classList.toggle('filled', i < val.length));
-
-    if (val.length === 4) {
-      if (val === PIN) {
-        overlay.style.opacity = '0';
-        overlay.style.pointerEvents = 'none';
-        setTimeout(() => overlay.style.display = 'none', 700);
-        content.classList.add('unlocked');
-        overlay.style.transition = 'opacity 0.7s ease';
-      } else {
-        errorEl.textContent = 'PIN incorreto. Tente novamente.';
-        input.value = '';
-        dots.forEach(d => d.classList.remove('filled'));
-        input.focus();
-      }
-    }
+/* ── PIN ── */
+const CORRECT = '2204';
+let entered = '';
+function updateDots() {
+  for (let i = 0; i < 4; i++) document.getElementById('d'+i).classList.toggle('filled', i < entered.length);
+}
+function shakeError() {
+  const dots = document.querySelector('.pin-dots');
+  dots.style.animation = 'shake 0.45s ease';
+  document.getElementById('pin-error').classList.add('show');
+  setTimeout(() => { document.getElementById('pin-error').classList.remove('show'); dots.style.animation = ''; }, 1800);
+}
+function unlock() {
+  document.getElementById('pin-screen').classList.add('unlocking');
+  setTimeout(() => {
+    document.getElementById('pin-screen').style.display = 'none';
+    document.getElementById('page').classList.add('revealed');
+  }, 900);
+}
+document.querySelectorAll('.pin-key').forEach(key => {
+  key.addEventListener('click', () => {
+    const v = key.dataset.v; if (!v) return;
+    key.classList.add('pressed'); setTimeout(() => key.classList.remove('pressed'), 140);
+    if (v === 'del') { entered = entered.slice(0,-1); updateDots(); return; }
+    if (entered.length >= 4) return;
+    entered += v; updateDots();
+    if (entered.length === 4) setTimeout(() => {
+      if (entered === CORRECT) unlock();
+      else { entered = ''; updateDots(); shakeError(); }
+    }, 200);
   });
+});
+document.addEventListener('keydown', e => {
+  if (document.getElementById('pin-screen').style.display === 'none') return;
+  if (e.key >= '0' && e.key <= '9') document.querySelector(`.pin-key[data-v="${e.key}"]`)?.click();
+  if (e.key === 'Backspace') document.querySelector('.pin-key[data-v="del"]')?.click();
+});
 
-  input.focus();
+/* ── REVEAL ON SCROLL ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
 
-  // Translation toggles
-  function toggleTranslation(btn) {
-    const text = btn.nextElementSibling;
-    const isOpen = text.classList.toggle('visible');
-    btn.classList.toggle('open', isOpen);
-    btn.querySelector('span').textContent = isOpen ? 'ocultar' : 'ver tradução';
-  }
+/* ── SIDE NAV ── */
+function toggleNav() {
+  const nav = document.getElementById('sideNav');
+  const overlay = document.getElementById('navOverlay');
+  const toggle = document.getElementById('navToggle');
+  nav.classList.toggle('open'); overlay.classList.toggle('show'); toggle.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+function closeNav() {
+  document.getElementById('sideNav').classList.remove('open');
+  document.getElementById('navOverlay').classList.remove('show');
+  document.getElementById('navToggle').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+
+/* ── ACTIVE NAV LINK ── */
+const sideLinks = document.querySelectorAll('.side-nav-link');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  document.querySelectorAll('section[id]').forEach(s => { if (window.scrollY >= s.offsetTop - 140) cur = s.id; });
+  sideLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+cur));
+}, { passive: true });
+
+/* ── PARALLAX GEO ── */
+const geos = document.querySelectorAll('.hero-geo');
+window.addEventListener('scroll', () => {
+  if (window.scrollY < window.innerHeight)
+    geos.forEach((g,i) => { g.style.transform = `translateY(${window.scrollY*(0.02+i*0.007)}px)`; });
+}, { passive: true });
+
+/* ── TRANSLATION TOGGLE ── */
+function toggleTrans(btn) {
+  const text = btn.nextElementSibling;
+  const isOpen = text.classList.toggle('visible');
+  btn.classList.toggle('open', isOpen);
+  btn.querySelector('span').textContent = isOpen ? 'ocultar' : 'ver tradução';
+}
 </script>
 </body>
 </html>
